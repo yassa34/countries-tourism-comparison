@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>مقارنة دول</title>
+<title>مقارنة الدول</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -9,19 +9,23 @@
 
 <h1>مقارنة بين دولتين</h1>
 
-<div class="country">
-<h2>مصر</h2>
-<p>العاصمة: القاهرة</p>
-<p>عدد السكان: 110 مليون</p>
-</div>
+<select id="country1">
+<option value="egypt">مصر</option>
+<option value="france">فرنسا</option>
+<option value="japan">اليابان</option>
+</select>
 
-<div class="country">
-<h2>السعودية</h2>
-<p>العاصمة: الرياض</p>
-<p>عدد السكان: 36 مليون</p>
-</div>
+<select id="country2">
+<option value="egypt">مصر</option>
+<option value="france">فرنسا</option>
+<option value="japan">اليابان</option>
+</select>
 
-<button onclick="showMessage()">اضغط للمقارنة</button>
+<br><br>
+
+<button onclick="compareCountries()">قارن</button>
+
+<div id="result"></div>
 
 <script src="script.js"></script>
 
