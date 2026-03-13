@@ -804,7 +804,7 @@ function compareCountries() {
                 </div>
                 <div class="info-item">
                     <strong>💱 العملة:</strong>
-                    <p>${data.العملة} (≈ ${data.exchangeRate} دولار أمريكي)</p>
+                    <p>1 دولار أمريكي ≈ ${data.exchangeRate} ${data.العملة}</p>
                 </div>
                 <div class="info-item">
                     <strong>🏗️ ترتيب البنية التحتية:</strong>
