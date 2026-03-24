@@ -379,7 +379,7 @@ const visaRequirements = {
         "قوسينا":{
             العاصمة:"المنوفية"
         
-            ,
+          
              الأماكن_السياحية: [
                 { name: "برج إيفل", desc: "برج حديدي شهير في باريس",img:"/images/فرنسا/download (5).jpg" },
                 { name: "متحف اللوفر", desc: "أكبر متحف فني في العالم",img:"/images/فرنسا/download.jpg" },
