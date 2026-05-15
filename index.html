@@ -1,83 +1,124 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مقارنة السياحة بين الدول</title>
+    <title>Country Tourism Comparison</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Leaflet CSS للخريطة -->
+    <!-- Leaflet CSS for maps -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+    <!-- Chart.js for charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🌍 مقارنة السياحة بين الدول</h1>
-            <p>اكتشف الفروقات والفنادق والأماكن السياحية</p>
+            <h1>🌍 Country Tourism Comparison</h1>
+            <p>Discover differences, hotels, and tourist attractions</p>
         </header>
 
         <div class="selector-section">
             <div class="country-selector">
-                <label for="passport">🛂 اختر جواز سفرك:</label>
-                <select id="passport" aria-label="اختر جنسيتك" onchange="onPassportChange()">
-                    <option value="">-- اختر جواز السفر --</option>
+                <label for="passport">🛂 Select Your Passport:</label>
+                <select id="passport" aria-label="Select your nationality" onchange="onPassportChange()">
+                    <option value="">-- Choose Passport --</option>
                 </select>
             </div>
 
             <div id="visa-filter-buttons" class="visa-filter-buttons" style="display:none;">
-                <p>اختر طريقة البحث:</p>
-                <button onclick="filterByVisa('allowed')" class="filter-btn">✅ الدول المسموح بدخولك فيها</button>
-                <button onclick="filterByVisa('all-countries')" class="filter-btn">🌍 جميع الدول</button>
+                <p>Choose Search Method:</p>
+                <button onclick="filterByVisa('allowed')" class="filter-btn">✅ Countries You Can Enter</button>
+                <button onclick="filterByVisa('all-countries')" class="filter-btn">🌍 All Countries</button>
             </div>
 
             <div class="country-selector">
-                <label for="search1">🔍 ابحث عن الدولة الأولى:</label>
+                <label for="search1">🔍 Search First Country:</label>
                 <input 
                     type="text" 
                     id="search1" 
                     class="country-search" 
-                    placeholder="اكتب اسم الدولة..." 
-                    aria-label="البحث عن الدولة الأولى">
-                <select id="country1" aria-label="اختر الدولة الأولى">
-                    <option value="">-- اختر دولة --</option>
+                    placeholder="Type country name..." 
+                    aria-label="Search first country">
+                <select id="country1" aria-label="Choose first country">
+                    <option value="">-- Choose Country --</option>
                 </select>
                 <div id="map-preview-1"></div>
             </div>
 
             <div class="country-selector">
-                <label for="search2">🔍 ابحث عن الدولة الثانية (اختياري):</label>
+                <label for="search2">🔍 Search Second Country (Optional):</label>
                 <input 
                     type="text" 
                     id="search2" 
                     class="country-search" 
-                    placeholder="اكتب اسم الدولة..." 
-                    aria-label="البحث عن الدولة الثانية">
-                <select id="country2" aria-label="اختر الدولة الثانية">
-                    <option value="">-- اختر دولة --</option>
+                    placeholder="Type country name..." 
+                    aria-label="Search second country">
+                <select id="country2" aria-label="Choose second country">
+                    <option value="">-- Choose Country --</option>
                 </select>
                 <div id="map-preview-2"></div>
             </div>
 
             <div class="button-group">
-                <button onclick="compareCountries()" class="btn-compare" title="اضغط أو اطبع Enter للمقارنة">عرض المقارنة</button>
-                <button onclick="clearSelections()" class="btn-clear" title="امسح الاختيارات">🔄 إعادة تعيين</button>
+                <button onclick="compareCountries()" class="btn-compare" title="Click or press Enter to compare">Show Comparison</button>
+                <button onclick="clearSelections()" class="btn-clear" title="Clear selections">🔄 Reset</button>
             </div>
         </div>
 
         <div id="visa-info" class="visa-info"></div>
 
         <div class="quick-select">
-            <p>⭐ الدول الشهيرة:</p>
+            <p>⭐ Popular Countries:</p>
             <div class="quick-buttons">
-                <button onclick="selectCountry('مصر', 1)" class="quick-btn">🇪🇬 مصر</button>
-                <button onclick="selectCountry('السعودية', 1)" class="quick-btn">🇸🇦 السعودية</button>
-                <button onclick="selectCountry('الإمارات', 1)" class="quick-btn">🇦🇪 الإمارات</button>
-                <button onclick="selectCountry('فرنسا', 1)" class="quick-btn">🇫🇷 فرنسا</button>
-                <button onclick="selectCountry('تركيا', 1)" class="quick-btn">🇹🇷 تركيا</button>
-                <button onclick="selectCountry('اليابان', 1)" class="quick-btn">🇯🇵 اليابان</button>
+                <button onclick="selectCountry('Egypt', 1)" class="quick-btn">🇪🇬 Egypt</button>
+                <button onclick="selectCountry('Saudi Arabia', 1)" class="quick-btn">🇸🇦 Saudi Arabia</button>
+                <button onclick="selectCountry('UAE', 1)" class="quick-btn">🇦🇪 UAE</button>
+                <button onclick="selectCountry('France', 1)" class="quick-btn">🇫🇷 France</button>
+                <button onclick="selectCountry('Turkey', 1)" class="quick-btn">🇹🇷 Turkey</button>
+                <button onclick="selectCountry('Japan', 1)" class="quick-btn">🇯🇵 Japan</button>
+                <button onclick="selectCountry('Germany', 1)" class="quick-btn">🇩🇪 Germany</button>
+                <button onclick="selectCountry('Italy', 1)" class="quick-btn">🇮🇹 Italy</button>
+                <button onclick="selectCountry('Greece', 1)" class="quick-btn">🇬🇷 Greece</button>
+                <button onclick="selectCountry('Spain', 1)" class="quick-btn">🇪🇸 Spain</button>
+                <button onclick="selectCountry('Tunisia', 1)" class="quick-btn">🇹🇳 Tunisia</button>
+                <button onclick="selectCountry('Morocco', 1)" class="quick-btn">🇲🇦 Morocco</button>
             </div>
         </div>
 
-        <div id="comparison" class="comparison-section"></div>
+        <!-- Comparison Tabs -->
+        <div id="comparison-tabs" class="comparison-tabs" style="display:none;">
+            <div class="tabs-header">
+                <button class="tab-btn active" onclick="switchComparisonTab('general')">📊 General</button>
+                <button class="tab-btn" onclick="switchComparisonTab('economy')">💰 Economy</button>
+                <button class="tab-btn" onclick="switchComparisonTab('culture')">🎨 Culture</button>
+                <button class="tab-btn" onclick="switchComparisonTab('education')">📚 Education</button>
+                <button class="tab-btn" onclick="switchComparisonTab('infrastructure')">🌐 Infrastructure</button>
+            </div>
+            
+            <div id="general-tab" class="tab-content active">
+                <div id="comparison" class="comparison-section"></div>
+            </div>
+            
+            <div id="economy-tab" class="tab-content">
+                <div id="economy-comparison" class="comparison-section"></div>
+                <div id="economy-chart-container" style="margin-top: 30px;"></div>
+            </div>
+            
+            <div id="culture-tab" class="tab-content">
+                <div id="culture-comparison" class="comparison-section"></div>
+                <div id="culture-chart-container" style="margin-top: 30px;"></div>
+            </div>
+            
+            <div id="education-tab" class="tab-content">
+                <div id="education-comparison" class="comparison-section"></div>
+                <div id="education-chart-container" style="margin-top: 30px;"></div>
+            </div>
+            
+            <div id="infrastructure-tab" class="tab-content">
+                <div id="infrastructure-comparison" class="comparison-section"></div>
+                <div id="infrastructure-chart-container" style="margin-top: 30px;"></div>
+            </div>
+        </div>
         
         <div id="global-map-section" style="margin-top:40px;"></div>
     </div>
