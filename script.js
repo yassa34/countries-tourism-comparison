@@ -372,6 +372,7 @@ const flagMapping = {
     "Canada" :"images/flages/download (17).png",
     "Usa":"images/flages/download (18).png",
     "Chaina":"images/flages/download (19).png",
+    
 };
 
 // Function to get flag image or emoji
@@ -2411,5 +2412,136 @@ function createAnimatedChart(containerId, country1, country2, type) {
         }
     });
 }
+
+const authStateKey = "loggedInUserEmail";
+
+function showAuthTab(tab) {
+    const loginBtn = document.getElementById("login-tab-btn");
+    const registerBtn = document.getElementById("register-tab-btn");
+    const loginForm = document.getElementById("login-form");
+    const registerForm = document.getElementById("register-form");
+
+    if (tab === "login") {
+        loginBtn.classList.add("active");
+        registerBtn.classList.remove("active");
+        loginForm.classList.add("active");
+        registerForm.classList.remove("active");
+    } else {
+        loginBtn.classList.remove("active");
+        registerBtn.classList.add("active");
+        loginForm.classList.remove("active");
+        registerForm.classList.add("active");
+    }
+}
+
+function showAuthMessage(message, success = false) {
+    const messageBox = document.getElementById("auth-message");
+    messageBox.textContent = message;
+    messageBox.style.color = success ? "#7fff7f" : "#ffd166";
+}
+
+function showMainApp() {
+    document.getElementById("auth-screen").style.display = "none";
+    document.getElementById("main-app").classList.remove("hidden");
+    document.getElementById("logout-btn").style.display = "inline-block";
+}
+
+function showAuthScreen() {
+    document.getElementById("auth-screen").style.display = "flex";
+    document.getElementById("main-app").classList.add("hidden");
+    document.getElementById("logout-btn").style.display = "none";
+}
+
+async function registerUser() {
+    const email = document.getElementById("register-email").value.trim();
+    const password = document.getElementById("register-password").value.trim();
+
+    if (!email || !password) {
+        return showAuthMessage("الرجاء إدخال البريد الإلكتروني وكلمة المرور.");
+    }
+
+    try {
+        console.log("Sending register request to:", "http://localhost:3000/register");
+        const response = await fetch("http://localhost:3000/register", { mode: "cors",
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
+        });
+
+        console.log("Response status:", response.status);
+
+        if (!response.ok) {
+            return showAuthMessage("خطأ من الخادم. حاول لاحقاً.");
+        }
+
+        const data = await response.json();
+        console.log("Response data:", data);
+
+        if (data.success) {
+            sessionStorage.setItem(authStateKey, email);
+            showAuthMessage("تم إنشاء الحساب بنجاح. مرحبًا بك!", true);
+            showMainApp();
+        } else {
+            showAuthMessage(data.message || "حدث خطأ أثناء التسجيل.");
+        }
+    } catch (error) {
+        console.error("Register error:", error);
+        showAuthMessage("فشل الاتصال بالخادم. تأكد من أن السيرفر يعمل.");
+    }
+}
+
+async function loginUser() {
+    const email = document.getElementById("login-email").value.trim();
+    const password = document.getElementById("login-password").value.trim();
+
+    if (!email || !password) {
+        return showAuthMessage("الرجاء إدخال البريد الإلكتروني وكلمة المرور.");
+    }
+
+    try {
+        console.log("Sending login request to:", "http://localhost:3000/login");
+        const response = await fetch("http://localhost:3000/login", { mode: "cors",
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
+        });
+
+        console.log("Response status:", response.status);
+
+        if (!response.ok) {
+            return showAuthMessage("خطأ من الخادم. حاول لاحقاً.");
+        }
+
+        const data = await response.json();
+        console.log("Response data:", data);
+
+        if (data.success) {
+            sessionStorage.setItem(authStateKey, email);
+            showAuthMessage("تم تسجيل الدخول بنجاح.", true);
+            showMainApp();
+        } else {
+            showAuthMessage(data.message || "البريد أو كلمة المرور غير صحيحة.");
+        }
+    } catch (error) {
+        console.error("Login error:", error);
+        showAuthMessage("فشل الاتصال بالخادم. تأكد من أن السيرفر يعمل.");
+    }
+}
+
+function logoutUser() {
+    sessionStorage.removeItem(authStateKey);
+    showAuthScreen();
+    showAuthMessage("تم تسجيل الخروج بنجاح.", true);
+}
+
+function checkLoginState() {
+    if (sessionStorage.getItem(authStateKey)) {
+        showMainApp();
+    } else {
+        showAuthScreen();
+    }
+}
+
+window.addEventListener("load", checkLoginState);
 
 
