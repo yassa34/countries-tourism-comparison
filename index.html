@@ -11,11 +11,34 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🌍 Country Tourism Comparison</h1>
-            <p>Discover differences, hotels, and tourist attractions</p>
-        </header>
+    <div id="auth-screen" class="auth-screen">
+        <div class="auth-box">
+            <h1>مرحبا بك</h1>
+            <div class="auth-tabs">
+                <button type="button" id="login-tab-btn" class="active" onclick="showAuthTab('login')">تسجيل دخول</button>
+                <button type="button" id="register-tab-btn" onclick="showAuthTab('register')">إنشاء حساب</button>
+            </div>
+            <div id="login-form" class="auth-form active">
+                <input type="email" id="login-email" placeholder="البريد الإلكتروني" />
+                <input type="password" id="login-password" placeholder="كلمة المرور" />
+                <button type="button" onclick="loginUser()">دخول</button>
+            </div>
+            <div id="register-form" class="auth-form">
+                <input type="email" id="register-email" placeholder="البريد الإلكتروني" />
+                <input type="password" id="register-password" placeholder="كلمة المرور" />
+                <button type="button" onclick="registerUser()">إنشاء حساب</button>
+            </div>
+            <div id="auth-message" class="auth-message"></div>
+        </div>
+    </div>
+
+    <div id="main-app" class="hidden">
+        <div class="container">
+            <header>
+                <h1>🌍 Country Tourism Comparison</h1>
+                <p>Discover differences, hotels, and tourist attractions</p>
+                <button id="logout-btn" class="logout-btn" style="display:none;">تسجيل خروج</button>
+            </header>
 
         <div class="selector-section">
             <div class="country-selector">
